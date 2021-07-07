@@ -4,33 +4,43 @@ import ScoreboardItem from './scoreboarditem'
 export default class Scoreboard extends React.Component {    
     constructor (props) {
         super(props)
-        let data = undefined;
-        const getData=()=>{
-            fetch('../data/data.json',
+        this.state = {isLoaded: false, data: null};     
+    }
+    componentDidMount () {
+        const getData = async ()=>{
+            const response = await fetch('/data/data.json',
             {
                 headers : { 
                     'Content-Type': 'application/json',
                     'Accept': 'application/json'
                 }
-            }).then(function(response){
-                //console.log(response)
-                return response.json();
-            }).then(function(myJson) {
-                data = myJson;
-            });
-        }
+            })
+            const data = await response.json();
+            this.state.data = data;
+            this.state.isLoaded = true;
+            this.forceUpdate();
+        };
         getData();
-        this.state = {data:data};
     }
+    
+    
     render() {
-        const data = this.state.data;
-        const items = data.map(item =>
-            <ScoreboardItem key={item.userID} value={item}/>
-        );
-        return (            
-            <ol>
-                {items}
-            </ol>
-        );
+        if(this.state.isLoaded === false) {
+            return (
+                <div>Loading...</div>
+            )
+        }
+        else {
+            const data = this.state.data;
+            const items = data.map(item =>
+                <ScoreboardItem key={item.userID} value={item}/>
+            );
+            return (            
+                <ol>
+                    {items}
+                </ol>
+            );
+        }
+        
     }
 }
