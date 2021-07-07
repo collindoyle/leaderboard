@@ -16,8 +16,9 @@ export default class Scoreboard extends React.Component {
                 }
             })
             const data = await response.json();
-            this.state.data = data;
-            this.state.isLoaded = true;
+            //this.state.data = data;
+            //this.state.isLoaded = true;
+            this.setState({data: data, isLoaded: true})
             this.forceUpdate();
         };
         getData();

@@ -20,7 +20,7 @@ export default class ScoreboardItem extends React.Component {
         );
     }
     addScore () {
-        this.props.value.score += Math.floor(Math.random()*1000)
+        //this.props.value.score += Math.floor(Math.random()*1000)
         console.log(Math.floor(Math.random()*1000))
     }
     componentDidMount() {
